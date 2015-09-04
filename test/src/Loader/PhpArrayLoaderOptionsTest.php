@@ -32,4 +32,16 @@ class PhpArrayLoaderOptionsTest extends TestCase {
       array('/some/path', '/some/path'),
     );
   }
+
+  public function testFileTemplateDefaultsToEmptyArray() {
+    $options = new PhpArrayLoaderOptions();
+    $this->assertSame(array(), $options->getFileTemplates());
+  }
+
+  public function testFileTemplateMutatorsWork() {
+    $options = new PhpArrayLoaderOptions();
+    $testValue = array('1', '2');
+    $options->setFileTemplates($testValue);
+    $this->assertSame($testValue, $options->getFileTemplates());
+  }
 }

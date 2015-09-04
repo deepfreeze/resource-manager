@@ -29,5 +29,19 @@ class PhpArrayLoaderOptions {
     $this->basePath = $basePath;
   }
 
+  /**
+   * @return \string[]
+   */
+  public function getFileTemplates() {
+    return $this->fileTemplates;
+  }
+
+  /**
+   * Ordered array of file templates.
+   * @param \string[] $fileTemplates
+   */
+  public function setFileTemplates(array $fileTemplates) {
+    $this->fileTemplates = $fileTemplates;
+  }
 
 }
