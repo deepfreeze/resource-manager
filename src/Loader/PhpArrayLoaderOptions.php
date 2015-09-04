@@ -2,7 +2,9 @@
 
 namespace DeepFreeze\Intl\Resource\Loader;
 
-class PhpArrayLoaderOptions {
+use DeepFreezeSpi\Intl\Resource\LoaderOptionsInterface;
+
+class PhpArrayLoaderOptions implements LoaderOptionsInterface {
   /**
    * @var string
    */
