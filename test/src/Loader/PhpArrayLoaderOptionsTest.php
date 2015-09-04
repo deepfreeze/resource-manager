@@ -44,4 +44,12 @@ class PhpArrayLoaderOptionsTest extends TestCase {
     $options->setFileTemplates($testValue);
     $this->assertSame($testValue, $options->getFileTemplates());
   }
+
+  public function testFileTemplateStripsLeadingPathSeparator() {
+    $options = new PhpArrayLoaderOptions();
+    $testValue = array('1', '/2', '/3');
+    $expected = array('1', '2', '3');
+    $options->setFileTemplates($testValue);
+    $this->assertSame($expected, $options->getFileTemplates());
+  }
 }

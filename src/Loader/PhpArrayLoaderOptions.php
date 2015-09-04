@@ -41,6 +41,13 @@ class PhpArrayLoaderOptions {
    * @param \string[] $fileTemplates
    */
   public function setFileTemplates(array $fileTemplates) {
+    $stripLeadingSeparator = function($e) {
+      if ($e{0} === '/' || $e{0} === PATH_SEPARATOR) {
+        $e = (string)substr($e, 1);
+      }
+      return $e;
+    };
+    $fileTemplates = array_map($stripLeadingSeparator, $fileTemplates);
     $this->fileTemplates = $fileTemplates;
   }
 
