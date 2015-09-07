@@ -42,62 +42,32 @@ class Request implements ResourceRequestInterface {
    */
   private $renderedExtensions = array();
 
+  public function __construct($textDomain, $targetLanguage, $requestedLanguage=null) {
+    $this->setTextDomain($textDomain);
+    $this->setLanguage($targetLanguage);
+    $this->setRequestedLanguage($requestedLanguage);
+  }
+
   /**
    * @param string $textDomain
    */
-  public function setTextDomain($textDomain) {
+  private function setTextDomain($textDomain) {
     $this->textDomain = $textDomain;
   }
 
   /**
    * @param string $requestedLanguage
    */
-  public function setRequestedLanguage($requestedLanguage) {
+  private function setRequestedLanguage($requestedLanguage) {
     $this->requestedLanguage = $requestedLanguage;
-  }
-
-  /**
-   * @param string $languageTag
-   */
-  public function setLanguageTag($languageTag) {
-    $this->languageTag = $languageTag;
   }
 
   /**
    * @param string $language
    */
-  public function setLanguage($language) {
-    $this->language = $language;
+  private function setLanguage($language) {
+    // Parsing
   }
-
-  /**
-   * @param string $script
-   */
-  public function setScript($script) {
-    $this->script = $script;
-  }
-
-  /**
-   * @param string $region
-   */
-  public function setRegion($region) {
-    $this->region = $region;
-  }
-
-  /**
-   * @param \string[] $variants
-   */
-  public function setVariants($variants) {
-    $this->variants = $variants;
-  }
-
-  /**
-   * @param \string[][] $extensions
-   */
-  public function setExtensions($extensions) {
-    $this->extensions = $extensions;
-  }
-
 
   /**
    * @return string
