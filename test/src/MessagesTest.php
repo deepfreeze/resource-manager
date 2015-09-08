@@ -21,6 +21,22 @@ class MessagesTest extends TestCase {
     $this->assertSame($expected, $actual);
   }
 
+  /**
+   * @dataProvider dataMergeArrayOverwritesExistingValues
+   * @param array $baseArray
+   * @param array $valuesToMerge
+   * @param array $expected
+   */
+  public function testMergeMessagesOverwritesExistingValues(array $baseArray, array $valuesToMerge, array $expected) {
+    $messages = new Messages($baseArray);
+    $mergeMessages = new Messages($valuesToMerge);
+    $messages->mergeMessages($mergeMessages);
+    $actual = $messages->getArrayCopy();
+    ksort($actual);
+    $this->assertSame($expected, $actual);
+  }
+
+
   public function dataMergeArrayOverwritesExistingValues() {
     return array(
       'empty-source' => array(
