@@ -2,37 +2,55 @@
 namespace DeepFreeze\Intl\Resource\Loader;
 
 use DeepFreeze\Intl\Resource\Exception\InvalidArgumentException;
-use DeepFreeze\Intl\Resource\TextDomain;
+use DeepFreeze\Intl\Resource\Messages;
+use DeepFreeze\Intl\Resource\Request;
+use DeepFreezeSpi\Intl\Resource\ResourceLoaderInterface;
 use DeepFreezeSpi\Intl\Resource\ResourceRequestInterface as ResourceRequest;
 
-class PhpArrayLoader
+class PhpArrayLoader implements ResourceLoaderInterface
 {
+  /**
+   * @var PhpArrayLoaderOptions;
+   */
+  private $options;
+
   /**
    * Returns an instance of the LoaderOptions
    * @return PhpArrayLoaderOptions
    */
   public function getOptions() {
-    return new PhpArrayLoaderOptions();
+    if (null === $this->options) {
+      $this->options = new PhpArrayLoaderOptions();
+    }
+    return $this->options;
+  }
+
+
+  /**
+   * Set the Options instance
+   * @param PhpArrayLoaderOptions $options
+   */
+  public function setOptions(PhpArrayLoaderOptions $options) {
+    $this->options = $options;
   }
 
   /**
    * Process loading a file.
-   * @param ResourceRequest $request
-   * @param PhpArrayLoaderOptions $options
-   * @return TextDomain
-   */
-  public function load(ResourceRequest $request, PhpArrayLoaderOptions $options) {
-    $templates = array_reverse($options->getFileTemplates());
-    $filenames = $this->resolveTemplates($request, $templates, $options->getBasePath());
 
-    $messages = new TextDomain();
-    foreach ($filenames as $filename) {
+   * @return string[]
+   */
+  public function load($textDomain, $language) {
+    $request = new Request($textDomain, $language);
+    $fileNames = $this->resolveTemplates($request);
+
+    $messages = array();
+    foreach ($fileNames as $filename) {
       $result = include $filename;
       if (!is_array($result)) {
         throw new InvalidArgumentException('file', $result, 'Resource file must return an array.');
       }
 
-      $messages->mergeArray($result);
+      $messages = array_replace($messages, $result);
     }
     return $messages;
   }
@@ -40,10 +58,11 @@ class PhpArrayLoader
 
   /**
    * @param ResourceRequest $request
-   * @param array $templates
    * @return array
    */
-  private function resolveTemplates(ResourceRequest $request, array $templates, $basePath) {
+  private function resolveTemplates(ResourceRequest $request) {
+    $templates = $this->getOptions()->getFileTemplates();
+    $basePath = $this->getOptions()->getBasePath();
     $templates = $this->resolveTemplateSubstitutions($request, $templates);
     $templates = $this->resolveFilenames($basePath, $templates);
     return $templates;

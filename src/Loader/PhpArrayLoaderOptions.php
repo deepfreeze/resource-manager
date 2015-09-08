@@ -2,6 +2,7 @@
 
 namespace DeepFreeze\Intl\Resource\Loader;
 
+use DeepFreeze\Intl\Resource\Exception\InvalidArgumentException;
 use DeepFreezeSpi\Intl\Resource\LoaderOptionsInterface;
 
 class PhpArrayLoaderOptions implements LoaderOptionsInterface {
@@ -53,4 +54,18 @@ class PhpArrayLoaderOptions implements LoaderOptionsInterface {
     $this->fileTemplates = $fileTemplates;
   }
 
+  /**
+   * Set options for this instance using the given array.
+   * This method does not reset state before applying the options.
+   * @param array $options
+   */
+  public function fromArray(array $options) {
+    foreach ($options as $key => $value) {
+      $method = 'set' . str_replace('_', '', $key);
+      if (!method_exists($this, $method)) {
+        throw new InvalidArgumentException('option_key', $key, sprintf('There is no corresponding setter for option "%s".', $key));
+      }
+      $this->$method($value);
+    }
+  }
 }

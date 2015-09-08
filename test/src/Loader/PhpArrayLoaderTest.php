@@ -22,13 +22,13 @@ class PhpArrayLoaderTest extends TestCase {
     $options = $loader->getOptions();
     $options->setBasePath(__DIR__ . '/../../files');
     $options->setFileTemplates(array('simple.en.res.php'));
-    $result = $loader->load(new Request(), $options);
+    $result = $loader->load('domain', 'en');
     $expected = array(
       'key1' => 'Message 1',
       'key2' => 'Message 2',
       'key3' => 'Message 3',
     );
-    $this->assertSame($expected, $result->getArrayCopy());
+    $this->assertSame($expected, $result);
   }
 
   public function testLoadWithOverloadedFiles() {
@@ -36,17 +36,17 @@ class PhpArrayLoaderTest extends TestCase {
     $options = $loader->getOptions();
     $options->setBasePath(__DIR__ . '/../../files');
     $options->setFileTemplates(array(
-      'simple.en-UK.res.php',
       'simple.en.res.php',
+      'simple.en-UK.res.php',
     ));
-    $result = $loader->load(new Request(), $options);
+    $result = $loader->load('domain', 'en');
     $expected = array(
       'key1' => 'Message 1 UK',
       'key2' => 'Message 2 UK',
       'key3' => 'Message 3',
       'key5' => 'Message 5 UK',
     );
-    $actual = $result->getArrayCopy();
+    $actual = $result;
     ksort($actual);
     $this->assertSame($expected, $actual);
   }
