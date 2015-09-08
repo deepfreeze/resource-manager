@@ -6,39 +6,39 @@ class ResourceManagerOptions {
   /**
    * @var string[]
    */
-  private $availableLocales = array();
+  private $availableLanguages = array();
 
   /**
    * @var string
    */
-  private $fallbackLocale;
+  private $fallbackLanguage;
 
   /**
    * @return \string[]
    */
-  public function getAvailableLocales() {
-    return $this->availableLocales;
+  public function getAvailableLanguages() {
+    return $this->availableLanguages;
   }
 
   /**
-   * @param \string[] $availableLocales
+   * @param \string[] $availableLanguages
    */
-  public function setAvailableLocales(array $availableLocales) {
-    $this->availableLocales = $availableLocales;
+  public function setAvailableLanguages(array $availableLanguages) {
+    $this->availableLanguages = $availableLanguages;
   }
 
   /**
    * @return string
    */
-  public function getFallbackLocale() {
-    return $this->fallbackLocale;
+  public function getFallbackLanguage() {
+    return $this->fallbackLanguage;
   }
 
   /**
-   * @param string $fallbackLocale
+   * @param string $fallbackLanguage
    */
-  public function setFallbackLocale($fallbackLocale) {
-    $this->fallbackLocale = $fallbackLocale;
+  public function setFallbackLanguage($fallbackLanguage) {
+    $this->fallbackLanguage = $fallbackLanguage;
   }
 
 

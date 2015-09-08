@@ -12,10 +12,6 @@ class Request implements ResourceRequestInterface {
   /**
    * @var string
    */
-  private $requestedLanguage;
-  /**
-   * @var string
-   */
   private $languageTag;
   /**
    * @var string
@@ -42,10 +38,9 @@ class Request implements ResourceRequestInterface {
    */
   private $renderedExtensions = array();
 
-  public function __construct($textDomain, $targetLanguage, $requestedLanguage=null) {
+  public function __construct($textDomain, $targetLanguage) {
     $this->setTextDomain($textDomain);
     $this->setLanguage($targetLanguage);
-    $this->setRequestedLanguage($requestedLanguage);
   }
 
   /**
@@ -53,13 +48,6 @@ class Request implements ResourceRequestInterface {
    */
   private function setTextDomain($textDomain) {
     $this->textDomain = $textDomain;
-  }
-
-  /**
-   * @param string $requestedLanguage
-   */
-  private function setRequestedLanguage($requestedLanguage) {
-    $this->requestedLanguage = $requestedLanguage;
   }
 
   /**
@@ -76,12 +64,6 @@ class Request implements ResourceRequestInterface {
     return $this->textDomain;
   }
 
-  /**
-   * @return string
-   */
-  public function getRequestedLanguage() {
-    return $this->requestedLanguage;
-  }
 
   /**
    * @return string
