@@ -13,7 +13,7 @@ class InvalidArgumentException extends \RuntimeException implements ExceptionInt
    * @param int $code
    * @param \Exception $previousException
    */
-  public function __construct($paramName, $paramValue, $message='', $code=0, \Exception $previousException) {
+  public function __construct($paramName, $paramValue, $message='', $code=0, \Exception $previousException=null) {
     $this->argumentName = $paramName;
     $this->argumentValue = $paramValue;
     $message = $message ?: sprintf('Invalid Argument provided.  Name=%s  Value=%s', json_encode($paramName), json_encode($paramValue));
