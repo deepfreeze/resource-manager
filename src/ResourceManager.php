@@ -108,9 +108,9 @@ class ResourceManager
   public function getLoader($pluginName) {
     $pluginName = strtolower($pluginName);
     // If the plugin is already loaded, use it.
-    if (isset($this->loaders[$pluginName])) {
-      return $this->loaders[$pluginName];
-    }
+//    if (isset($this->loaders[$pluginName])) {
+//      return $this->loaders[$pluginName];
+//    }
 
     // Look-up a concrete instance
     if (!isset($this->plugins[$pluginName])) {
@@ -120,8 +120,8 @@ class ResourceManager
     }
 
     // Assign to class cache
-    $this->loaders[$pluginName] = new $this->plugins[$pluginName];
-    return $this->loaders[$pluginName];
+    $plugin = new $this->plugins[$pluginName];
+    return $plugin;
   }
 
 
@@ -228,6 +228,7 @@ class ResourceManager
    * And a user requests en-SG; this will return array(en-CA, en-US, de-DE).
    * If a user requests fi-FI; will return array(de-DE)
    *
+   * TODO: Use External Locale Provider
    * @param string $language
    * @return string[]
    */
@@ -236,6 +237,15 @@ class ResourceManager
     if (isset($this->languageResolutionChain[$resolvedLanguage])) {
       return $this->languageResolutionChain[$resolvedLanguage];
     }
-    return array_unique(array($resolvedLanguage, $this->getOptions()->getFallbackLanguage()));
+    $chain = array();
+    $request = new Request('na', $language);
+    $chain[] = $request->getLanguageTag();
+    $chain[] = implode('-', array_filter(array($request->getLanguage(), $request->getScript(), $request->getRegion())));
+    $chain[] = implode('-', array_filter(array($request->getLanguage(), $request->getRegion())));
+    $chain[] = implode('-', array_filter(array($request->getLanguage(), $request->getScript())));
+    $chain[] = implode('-', array_filter(array($request->getLanguage())));
+    $chain[] = $this->getOptions()->getFallbackLanguage();
+    $chain = array_filter(array_unique($chain));
+    return $chain;
   }
 }
