@@ -43,7 +43,6 @@ class PhpArrayLoaderTest extends TestCase {
     $expected = array(
       'key1' => 'Message 1 UK',
       'key2' => 'Message 2 UK',
-      'key3' => 'Message 3',
       'key5' => 'Message 5 UK',
     );
     $actual = $result;

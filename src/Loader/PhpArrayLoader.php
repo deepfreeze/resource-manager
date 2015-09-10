@@ -42,17 +42,15 @@ class PhpArrayLoader implements ResourceLoaderInterface
   public function load($textDomain, $language) {
     $request = new Request($textDomain, $language);
     $fileNames = $this->resolveTemplates($request);
-
-    $messages = array();
+    $fileNames = array_reverse($fileNames);
     foreach ($fileNames as $filename) {
       $result = include $filename;
       if (!is_array($result)) {
         throw new InvalidArgumentException('file', $result, 'Resource file must return an array.');
       }
-
-      $messages = array_replace($messages, $result);
+      return $result;
     }
-    return $messages;
+    return array();
   }
 
 
