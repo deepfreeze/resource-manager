@@ -46,6 +46,7 @@ class TextDomainManager {
     // Later defined languages are used as a fallback.
     foreach ($fallbackChain as $language) {
       $result = $this->loadLanguage($textDomain, $language);
+      // Merge new results underneath current result
       $messages = array_replace($result, $messages);
     }
     return $messages;
