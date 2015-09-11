@@ -73,6 +73,7 @@ class PhpArrayLoader implements ResourceLoaderInterface
    */
   private function resolveTemplateSubstitutions(ResourceRequest $request, array $templates) {
     $substitutions = array_filter(array(
+      '{text-domain}' => $request->getTextDomain(),
       '{language}' => $request->getLanguage(),
       '{region}' => $request->getRegion(),
       '{script}' => $request->getScript(),
@@ -90,7 +91,7 @@ class PhpArrayLoader implements ResourceLoaderInterface
     // Filter out any template path that still contains an unresolved substitution
     $templates = array_filter($templates,
       function ($template) {
-        return !preg_match('#{(language|region|script|variants|extensions|tag)}#', $template);
+        return !preg_match('#{(text-domain|language|region|script|variants|extensions|tag)}#', $template);
       });
     return $templates;
   }
