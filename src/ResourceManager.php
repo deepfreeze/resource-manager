@@ -145,6 +145,16 @@ class ResourceManager
     return $this->messages[$domain][$locale][$messageKey];
   }
 
+
+  public function getAllMessages($domain, $requestedLocale=null) {
+    $locale = $requestedLocale ? $this->resolveLanguage($requestedLocale) : $this->getCurrentLanguage();
+    if (!$this->isTextDomainLoaded($domain, $locale)) {
+      $this->loadTextDomain($domain, $locale);
+    }
+    $messages = $this->messages[$domain][$locale];
+    return $messages->getArrayCopy();
+  }
+
   /**
    * Add a translation source definition
    *
